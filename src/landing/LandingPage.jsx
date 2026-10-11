@@ -43,7 +43,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-30 bg-brand text-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <a href="#inicio" aria-label="Subite, inicio">
-            <Logo markClassName="size-9" className="scale-90" />
+            <Logo alt="" className="h-9" />
           </a>
           <nav className="hidden items-center gap-6 text-sm md:flex" aria-label="Secciones">
             {nav.map(([href, label]) => (

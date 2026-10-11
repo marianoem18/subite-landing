@@ -23,7 +23,7 @@ export default function AppHeader({ onMenu, onBack }) {
           <Menu size={24} />
         </button>
       )}
-      <Logo markClassName="size-8" className="scale-[0.82]" />
+      <Logo className="h-8" />
     </header>
   );
 }
