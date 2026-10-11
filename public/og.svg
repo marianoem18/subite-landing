@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#254A96"/>
+  <rect x="96" y="180" width="168" height="168" rx="40" fill="#F9FAFC"/>
+  <path d="M140 300c28-52 46-60 64-60s24 22 52-48" fill="none" stroke="#254A96" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="140" cy="300" r="11" fill="#254A96"/>
+  <circle cx="204" cy="240" r="11" fill="#254A96"/>
+  <circle cx="256" cy="192" r="11" fill="#254A96"/>
+  <text x="300" y="270" fill="#F9FAFC" font-family="Arial, sans-serif" font-size="92" font-weight="700">Subite</text>
+  <text x="304" y="340" fill="#D6E0F5" font-family="Arial, sans-serif" font-size="36">Compará, elegí y movete</text>
+</svg>

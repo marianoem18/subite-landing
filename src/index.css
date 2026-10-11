@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #254a96;
+  --color-brand-alt: #2d50b0;
+  --color-brand-deep: #1b3a78;
+  --color-surface: #f9fafc;
+  --color-input-soft: #9aafd0;
+  --color-input-strong: #5b7cba;
+  --color-input-muted: #d7deea;
+  --color-ink: #1c2430;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.bg-brand :focus-visible,
+.bg-brand-alt :focus-visible {
+  outline-color: #fff;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.subite-divicon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-container {
+  position: relative;
+  z-index: 0;
+  font-family: var(--font-sans);
+  background: #e7ebf1;
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  line-height: 1.2;
+  background: rgba(249, 250, 252, 0.86) !important;
+  max-width: 78%;
+}
+
+.reveal-base {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.reveal-base.is-in {
+  animation: subite-rise 0.7s ease forwards;
+}
+
+@keyframes subite-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes subite-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.dot-pulse {
+  animation: subite-pulse 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-base,
+  .reveal-base.is-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .dot-pulse {
+    animation: none;
+    opacity: 1;
+  }
+}
