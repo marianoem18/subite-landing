@@ -6,10 +6,10 @@ import { useDemo } from "../../context/DemoContext";
 import Modal from "../../components/ui/Modal";
 import Toggle from "../../components/ui/Toggle";
 
-export default function ConfigDrawer({ onClose }) {
+export default function ConfigDrawer({ onClose, initialSection = "root" }) {
   const navigate = useNavigate();
   const { settings, updateSettings, logout } = useDemo();
-  const [section, setSection] = useState("root");
+  const [section, setSection] = useState(initialSection);
   const [confirm, setConfirm] = useState(false);
 
   const closeAll = () => {
@@ -42,6 +42,8 @@ export default function ConfigDrawer({ onClose }) {
 
         {section === "root" ? (
           <div className="mt-6 flex flex-1 flex-col">
+            <DrawerLink label="Ayuda" onClick={() => setSection("ayuda")} />
+            <DrawerLink label="Soporte" onClick={() => setSection("soporte")} />
             <DrawerLink label="Notificación" onClick={() => setSection("notificaciones")} />
             <DrawerLink label="Idioma" onClick={() => setSection("idioma")} />
             <DrawerLink label="Cuentas vinculadas" onClick={() => setSection("cuentas")} />
@@ -59,6 +61,23 @@ export default function ConfigDrawer({ onClose }) {
             >
               Cerrar sesión
             </button>
+          </div>
+        ) : null}
+
+        {section === "ayuda" || section === "soporte" ? (
+          <div className="mt-6">
+            <SectionTitle label={section === "ayuda" ? "Ayuda" : "Soporte"} onBack={() => setSection("root")} />
+            {section === "ayuda" ? (
+              <>
+                <details className="py-2 text-sm"><summary className="cursor-pointer">Preguntas frecuentes</summary><p className="mt-2 text-xs">Seleccioná tu destino y elegí una opción para solicitar un viaje.</p></details>
+                <details className="py-2 text-sm"><summary className="cursor-pointer">Reportar un problema</summary><p className="mt-2 text-xs">Comunicate con nosotros</p><p className="mt-3 text-xs">3811234567</p><p className="mt-3 text-xs">subite@gmail.com</p></details>
+              </>
+            ) : (
+              <>
+                <details className="py-2 text-sm"><summary className="cursor-pointer">Estado del servicio</summary><p className="mt-2 text-xs">La aplicación funciona con normalidad. No se registran fallas ni mantenimientos en curso por el momento.</p></details>
+                <details className="py-2 text-sm"><summary className="cursor-pointer">Centro de actualizaciones</summary><p className="mt-2 text-xs">La aplicación funciona con normalidad. No se registran fallas ni mantenimientos en curso por el momento.</p></details>
+              </>
+            )}
           </div>
         ) : null}
 

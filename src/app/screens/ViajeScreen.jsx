@@ -15,19 +15,25 @@ import MapView from "../components/MapView";
 import RouteSummary from "../components/RouteSummary";
 import TripLayout from "../components/TripLayout";
 
+const pickupCoords = [...routeCoords].reverse();
+const mapPaddingTop = [20, 80];
+const mapPaddingBottom = [20, 300];
+
 export default function ViajeScreen() {
   const navigate = useNavigate();
   const toast = useToast();
   const { trip, resetTrip } = useDemo();
   const [progress, setProgress] = useState(0);
-  const [arrived, setArrived] = useState(false);
+  const [phase, setPhase] = useState("pickup");
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
+    if (phase !== "pickup" && phase !== "trip") return undefined;
+    setProgress(0);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setProgress(1);
-      const timer = window.setTimeout(() => setArrived(true), 700);
+      const timer = window.setTimeout(() => setPhase(phase === "pickup" ? "driverArrived" : "finished"), 700);
       return () => window.clearTimeout(timer);
     }
 
@@ -39,11 +45,11 @@ export default function ViajeScreen() {
       const next = Math.min(1, (now - start) / duration);
       setProgress(next);
       if (next < 1) frame = window.requestAnimationFrame(tick);
-      else setArrived(true);
+      else setPhase(phase === "pickup" ? "driverArrived" : "finished");
     };
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [phase]);
 
   const finish = (stars) => {
     setRating(stars);
@@ -58,18 +64,18 @@ export default function ViajeScreen() {
       onBack={() => navigate("/app")}
       map={
         <MapView
-          coords={routeCoords}
+          coords={phase === "pickup" || phase === "driverArrived" ? pickupCoords : routeCoords}
           showCar
           progress={progress}
           showDestination
           arrivalLabel={arrivalLabel(Math.max(1, Math.round(18 * (1 - progress))))}
-          paddingTopLeft={[20, 80]}
-          paddingBottomRight={[20, 300]}
+          paddingTopLeft={mapPaddingTop}
+          paddingBottomRight={mapPaddingBottom}
         />
       }
       sheet={
         <BottomSheet>
-          <h1 className="mb-4 font-display text-3xl font-bold text-brand">Viaje aceptado</h1>
+          <h1 className="mb-4 font-display text-3xl font-bold text-brand">{phase === "trip" ? "Viaje en curso" : "Viaje aceptado"}</h1>
           <RouteSummary
             origin={trip.origin}
             destination={trip.destination || defaultDestination}
@@ -94,7 +100,14 @@ export default function ViajeScreen() {
         </BottomSheet>
       }
       overlay={
-        arrived ? (
+        phase === "driverArrived" ? (
+          <dialog open aria-labelledby="conductor-titulo" className="absolute inset-0 z-40 m-0 flex h-full max-h-none w-full max-w-none items-end justify-center border-0 bg-black/25 p-4 pb-8">
+            <div className="w-full rounded-[28px] bg-white px-5 py-6 text-center shadow-2xl">
+              <h2 id="conductor-titulo" className="font-display text-2xl font-bold text-brand">Ya llegó tu conductor</h2>
+              <Button variant="brand" full className="mt-4" onClick={() => setPhase("trip")}>Iniciar viaje</Button>
+            </div>
+          </dialog>
+        ) : phase === "finished" ? (
           <dialog
             open
             aria-labelledby="llegada-titulo"

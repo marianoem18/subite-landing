@@ -16,6 +16,7 @@ const TipoScreen = lazy(() => import("./app/screens/TipoScreen"));
 const TarifasScreen = lazy(() => import("./app/screens/TarifasScreen"));
 const PagoScreen = lazy(() => import("./app/screens/PagoScreen"));
 const BuscandoScreen = lazy(() => import("./app/screens/BuscandoScreen"));
+const PerfilScreen = lazy(() => import("./app/screens/PerfilScreen"));
 const ViajeScreen = lazy(() => import("./app/screens/ViajeScreen"));
 
 function ScreenFallback() {
@@ -45,6 +46,8 @@ export default function App() {
           <Route path="pago" element={<PagoScreen />} />
           <Route path="buscando" element={<BuscandoScreen />} />
           <Route path="viaje" element={<ViajeScreen />} />
+          <Route path="perfil" element={<PerfilScreen />} />
+          <Route path="perfil/:section" element={<PerfilScreen />} />
           <Route path="cambiar-contrasena" element={<ChangePasswordScreen />} />
         </Route>
       </Route>

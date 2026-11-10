@@ -1,21 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../components/ui/Toast";
 
 const items = [
-  { id: "soporte", label: "Soporte", action: "soon" },
-  { id: "ayuda", label: "Ayuda", action: "soon" },
+  { id: "soporte", label: "Soporte", action: "soporte" },
+  { id: "ayuda", label: "Ayuda", action: "ayuda" },
   { id: "config", label: "Configuración", action: "config" },
   { id: "sitio", label: "Volver al sitio", action: "site" },
 ];
 
 export default function SideMenu({ onClose, onConfig }) {
   const navigate = useNavigate();
-  const toast = useToast();
 
   const choose = (item) => {
-    if (item.action === "soon") {
-      toast("Próximamente");
-      onClose();
+    if (item.action === "soporte" || item.action === "ayuda") {
+      onConfig(item.action);
       return;
     }
     if (item.action === "config") {

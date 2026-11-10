@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MapPin, Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
@@ -15,8 +15,13 @@ export default function HomeScreen() {
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
+  const [configSection, setConfigSection] = useState("root");
   const [index, setIndex] = useState(0);
   const location = previousLocations[index];
+  const previewRoute = useMemo(() => {
+    const [lat, lng] = location.center;
+    return [[lat + 0.004, lng - 0.004], [lat + 0.002, lng - 0.004], [lat + 0.002, lng - 0.002], [lat, lng - 0.002], location.center];
+  }, [location]);
 
   const goToDestination = (address) => {
     setTrip({
@@ -84,17 +89,17 @@ export default function HomeScreen() {
         <button
           type="button"
           onClick={() => goToDestination(location.address)}
-          className="flex h-14 w-full items-center gap-2 bg-[#c8c8c8] px-4 text-left text-lg font-medium text-ink"
+          className="flex h-14 w-full items-center gap-2 bg-brand px-4 text-left text-lg font-medium text-white"
         >
           <MapPin size={20} aria-hidden="true" />
-          {location.title}
+          {location.address.split(",")[0]}
         </button>
         <div className="h-[42vh] bg-neutral-300">
           <MapView
             key={location.id}
-            center={location.center}
-            zoom={15}
-            showPin
+            coords={previewRoute}
+            showDestination
+            arrivalLabel="5 min"
           />
         </div>
         <div className="flex justify-center gap-2 py-3">
@@ -102,9 +107,10 @@ export default function HomeScreen() {
             <button
               key={item.id}
               type="button"
-              aria-label={item.title}
+              aria-label={item.address}
+              aria-current={itemIndex === index ? "true" : undefined}
               onClick={() => setIndex(itemIndex)}
-              className={`size-3 rounded-full ${itemIndex === index ? "bg-black" : "bg-neutral-400"}`}
+              className={`size-3 rounded-full ${itemIndex === index ? "bg-brand" : "bg-brand/50"}`}
             />
           ))}
         </div>
@@ -117,13 +123,14 @@ export default function HomeScreen() {
       {menuOpen ? (
         <SideMenu
           onClose={() => setMenuOpen(false)}
-          onConfig={() => {
+          onConfig={(section = "root") => {
             setMenuOpen(false);
+            setConfigSection(section);
             setConfigOpen(true);
           }}
         />
       ) : null}
-      {configOpen ? <ConfigDrawer onClose={() => setConfigOpen(false)} /> : null}
+      {configOpen ? <ConfigDrawer initialSection={configSection} onClose={() => setConfigOpen(false)} /> : null}
     </div>
   );
 }
