@@ -5,8 +5,8 @@ export default function Logo({ className, alt = "Subite" }) {
     <img
       src="/img/logo.png"
       alt={alt}
-      width="148"
-      height="148"
+      width="983"
+      height="302"
       className={cn("h-12 w-auto", className)}
     />
   );
