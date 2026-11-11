@@ -25,11 +25,6 @@ export default function Hero() {
           </Link>
         </div>
         <div className="relative mx-auto w-full max-w-[280px]">
-          <img
-            src="/img/hero-illustration.jpg"
-            alt=""
-            className="pointer-events-none absolute -left-10 -top-8 hidden w-40 mix-blend-screen md:block"
-          />
           <PhoneFrame
             priority
             src="/screens/tarifas.jpg"
